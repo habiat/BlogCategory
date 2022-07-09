@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Routing
+@model DropCategoryModel;
+@{
+
+}
+
+<div class="cards-group">
+    <div class="card card-default">
+        <div class="card-body">
+            <form asp-controller="BlogCategory" asp-action="BlogCategoryMapUpdate" method="post">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SelectedBlogCategoryIds" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="SelectedBlogCategoryIds" asp-items="Model.AvailableCategories" asp-multiple="true" />
+                        <script>
+                            $(document).ready(function() {
+                                var categoryIdsInput = $('#@Html.IdFor(model => model.SelectedBlogCategoryIds)').data("kendoMultiSelect");
+                                categoryIdsInput.setOptions({
+                                    autoClose: false,
+                                    filter: "contains"
+                                });
+                                console.log("xxxx");
+                                var toasts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.SelectedBlogCategoryIds));
+
+                                console.log(toasts);
+                                @if (Model.AvailableCategories.Count == 0)
+                                {
+                                    <text>
+                                        categoryIdsInput.setOptions({
+                                            enable: false,
+                                            placeholder: '@T("Admin.Catalog.Products.Fields.Categories.NoCategoriesAvailable")'
+                                        });
+                                        categoryIdsInput._placeholder();
+                                categoryIdsInput._enable();
+                                    </text>
+                                }
+                                $('#addCategory').click(function() {
+                                    var selectedCategoryIds = $("#@Html.IdFor(model => model.SelectedBlogCategoryIds)").val();
+
+                                    $('#addCategory').attr('disabled', true);
+
+                            var postData = {
+                                selectedCategoryIds: selectedCategoryIds,
+                                blogId: '@Context.GetRouteData().Values["id"]'
+                            };
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@Url.Action("BlogCategoryMapUpdate", "BlogCategory")",
+                                data: postData,
+                                success: function (data, textStatus, jqXHR) {
+                                    if (!data.Result) {
+                                        return;
+                                    }
+                                    console.log(data);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    $("#productPictureAddAlert").click();
+                                },
+                                complete: function (jqXHR, textStatus) {
+                                    $('#addCategory').attr('disabled', false);
+                                }
+                            });
+                        });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <button type="button" id="addCategory" class="btn btn-primary">
+                    <i class="far fa-save"></i>
+                    @T("Admin.Common.Save")
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

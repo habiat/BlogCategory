@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Blog Category",
+  "SystemName": "Widgets.BlogCategory",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.40" ],
+  "Author": "baramjk team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.BlogCategory.dll",
+  "Description": "plugin for add Category to Blog"
+}

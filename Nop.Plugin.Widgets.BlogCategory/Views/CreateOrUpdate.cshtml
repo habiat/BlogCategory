@@ -1,0 +1,91 @@
+﻿@using Nop.Web.Framework.Infrastructure
+@model BlogCategoryModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.PageTitle = T("Admin.Common.Edit").Text;
+}
+
+
+<form asp-controller="BlogCategory" asp-action="CreateOrUpdate" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Plugins.Widgets.BlogCategory.CreateOrUpdate.Title")
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-action="List" asp-controller="BlogCategory">@T("Common.Back")</a>
+            </small>
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <span id="blogCategory-delete" class="btn bg-red">
+                <i class="far fa-trash-alt"></i>
+                @T("Admin.Common.Delete")
+            </span>
+        </div>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Name" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="Name" asp-required="true" />
+                                        <span asp-validation-for="Name"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Tag" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="Tag" />
+                                        <span asp-validation-for="Tag"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="DisplayOrder" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="DisplayOrder" />
+                                        <span asp-validation-for="DisplayOrder"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="ParentId" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-select asp-for="ParentId" asp-items="Model.AvailableCategories" />
+                                        <span asp-validation-for="ParentId"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group advanced-setting row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="PictureId" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="PictureId" />
+                                    <span asp-validation-for="PictureId"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="blogCategory-delete" asp-action="BlogCategoryDelete" />
